@@ -4,10 +4,26 @@
  the range. Uses [Dart Math Random][] to generate random value.
  
   [Dart Math Random]: https://api.dart.dev/stable/2.8.4/dart-math/Random-class.html
+  [leap year]: https://en.wikipedia.org/wiki/Leap_year
+  
+ ### Defaults
+ Includes [leap year] Leap Years
+ 
+ EndYear when not provided, considers current year plus 5 years.
+ 
+ _eg:_  2025 ( for current year 2020)
  
  ### Optional Arguments
  EndYear When not provided, we consider current year plus 5 years
  You can choose to skip leap years within the range. 
+ 
+  ```dart
+  var options = RandonDateOptions();
+    // years to add in case endYear is not provided
+    options.addYearsToCurrent = 10;
+    // in case of excluding leap years
+    options.excludeLeapYear = true;
+  ```
  
  ## Usage
  

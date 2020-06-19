@@ -1,6 +1,6 @@
 name: random_date
-description: Generate a random date within given range.
-version: 0.0.1
+description: Generate a random date given range. Options let you skip leap years and ignore endYear in that case end value is deduced based on current year plus 5 years.
+version: 0.0.2
 homepage: https://github.com/NaveenGurram/random-date
 
 environment:
