@@ -10,28 +10,34 @@ export 'src/random_date_base.dart';
 
 // class to generate a random date
 class RandomDate {
-  // generates random date for given startYear and optional endYear
-  DateTime generateRandomDate(int startYear,
-      [int endYear, RandomDateOptions randomDateOptions]) {
-    // if no end year provided,we take currentYear and add 5 to it.
-    randomDateOptions ??= RandomDateOptions();
-    endYear ??= DateTime.now().year + randomDateOptions.addYearsToCurrent;
-    if (endYear < startYear) {
+  int _startYear;
+  int? _endYear;
+  RandomDateOptions? _randomDateOptions;
+  // constructors
+  RandomDate.withStartYear(this._startYear);
+  RandomDate.withRange(this._startYear, this._endYear);
+  RandomDate.withStartYearAndOptions(this._startYear, this._randomDateOptions);
+  RandomDate.withRangeAndOptions(
+      this._startYear, this._endYear, this._randomDateOptions);
+  // generate random date for given options
+  DateTime random() {
+    _randomDateOptions ??= RandomDateOptions();
+    _endYear ??= DateTime.now().year + _randomDateOptions!.addYearsToCurrent;
+    if (_endYear! < _startYear) {
       throw ArgumentError('Start year cannot be less then End year');
     }
     // when start and end year are equal, add one to end year if not leapYear
-    if (startYear == endYear) {
-      if (_isLeapYear(startYear)) {
+    if (_startYear == _endYear) {
+      if (_randomDateOptions!.excludeLeapYear && _isLeapYear(_startYear)) {
         throw ArgumentError(
             'Start and End year cannot be same when leap years are excluded');
       } else {
-        endYear += 1;
+        _endYear += 1;
       }
     }
     var _random = Random();
     // generate year
-    var _randYear =
-        _randomYear(startYear, endYear, randomDateOptions.excludeLeapYear);
+    var _randYear = _generateRandomYear();
     // generate random month
     var _randMonthInt = _random.nextInt(12) + 1;
     // generate random day
@@ -41,11 +47,11 @@ class RandomDate {
   }
 
   // generate random year for given range and flag to include/exclude leap years
-  int _randomYear(int startYear, int endYear, bool excludeLeapYear) {
-    var _year = startYear + Random().nextInt(endYear - startYear);
-    if (excludeLeapYear) {
+  int _generateRandomYear() {
+    var _year = _startYear + Random().nextInt(_endYear! - _startYear);
+    if (_randomDateOptions!.excludeLeapYear) {
       while (_isLeapYear(_year)) {
-        _year = startYear + Random().nextInt(endYear - startYear);
+        _year = _startYear + Random().nextInt(_endYear! - _startYear);
       }
     }
     return _year;

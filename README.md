@@ -18,7 +18,7 @@
  You can choose to skip leap years within the range. 
  
   ```dart
-  var options = RandonDateOptions();
+  var options = RandomDateOptions();
     // years to add in case endYear is not provided
     options.addYearsToCurrent = 10;
     // in case of excluding leap years
@@ -29,21 +29,39 @@
  
  
  ```dart
- import 'package:random_date/random_date.dart'
+ import 'package:random_date/random_date.dart';
  ```
+
+## Constructors
+```dart
+//with just start year
+var randomDate = RandomDate.withStartYear(2000);
+//with range
+var randomDate = RandomDate.withRange(2000,2005);
+//with StartYear and Options
+var randomDate = RandomDate.withStartYearAndOptions(2000,RandomDateOptions());
+//with Range and Options
+var randomDate = RandomDate.withRangeAndOptions(2000,2005,RandomDateOptions());
+
+// Constructors for RandomDateOptions
+  // modifying default value
+var randomDateOptions = RandomDateOptions.withDefaultYearsToCurrent(10);
+// setting exclude leap years
+var randomDateOptions = RandomDateOptions.excludeLeapYears();
+// modifying default values
+var randomDateOptions = RandomDateOptions.withValues(true,10);
+```
  
  The most common way of using this function is calling with a range.
  
  ```dart
- var randomDate = RandomDate();
 // generates a random date within range of years 1980 and 2000
- var dateTime = randomDate.generateRandomDate(1980,2000);
+ var dateTime = RandomDate.withRange(2000, 2010).random();
  ```
 
  ```dart
- var randomDate = RandomDate();
-// deduces endYear from current year plus 5 years
- var dateTime = randomDate.generateRandomDate(1980);
+// deduces endYear from current year plus 5 years when endDate is not provided
+ var dateTime = RandomDate.withStartYear(1980).random();
  ```
 
  ```dart
@@ -52,7 +70,7 @@
  // in case of endYear not provided, this option adds 10 years to the current year
  options.addYearsToCurrent = 10
 // deduces endYear from current year plus 10 years
- var dateTime = randomDate.generateRandomDate(1980);
+ var dateTime = RandomDate.withRangeAndOptions(1980,2000,options).random();
  ```
 
  ```dart
@@ -61,5 +79,5 @@
  // while generating dates, excludes leap year, until a non leap year is found, we keep generating
 // dates.
  options.excludeLeapYear = true
- var dateTime = randomDate.generateRandomDate(1980);
+ var dateTime = RandomDate.withStartYear(1980).random();
  ```
