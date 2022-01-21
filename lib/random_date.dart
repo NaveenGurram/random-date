@@ -13,20 +13,23 @@ class RandomDate {
   int _startYear;
   int? _endYear;
   RandomDateOptions? _randomDateOptions;
-  // constructors
+
+  /// constructors
   RandomDate.withStartYear(this._startYear);
   RandomDate.withRange(this._startYear, this._endYear);
   RandomDate.withStartYearAndOptions(this._startYear, this._randomDateOptions);
   RandomDate.withRangeAndOptions(
       this._startYear, this._endYear, this._randomDateOptions);
-  // generate random date for given options
+
+  /// generate random date for given options
   DateTime random() {
     _randomDateOptions ??= RandomDateOptions();
     _endYear ??= DateTime.now().year + _randomDateOptions!.addYearsToCurrent;
     if (_endYear! < _startYear) {
       throw ArgumentError('Start year cannot be less then End year');
     }
-    // when start and end year are equal, add one to end year if not leapYear
+
+    /// when start and end year are equal, add one to end year if not leapYear
     if (_startYear == _endYear) {
       if (_randomDateOptions!.excludeLeapYear && _isLeapYear(_startYear)) {
         throw ArgumentError(
@@ -40,17 +43,21 @@ class RandomDate {
       }
     }
     var _random = Random();
-    // generate year
+
+    /// generate year
     var _randYear = _generateRandomYear();
-    // generate random month
+
+    /// generate random month
     var _randMonthInt = _random.nextInt(12) + 1;
-    // generate random day
+
+    /// generate random day
     var _randDay = _random.nextInt(_maxDays(_randYear, _randMonthInt));
-    // this is a valid day, month and year.
+
+    /// this is a valid day, month and year.
     return DateTime(_randYear, _randMonthInt, _randDay);
   }
 
-  // generate random year for given range and flag to include/exclude leap years
+  /// generate random year for given range and flag to include/exclude leap years
   int _generateRandomYear() {
     var _year = _startYear + Random().nextInt(_endYear! - _startYear);
     if (_randomDateOptions!.excludeLeapYear) {
@@ -61,7 +68,7 @@ class RandomDate {
     return _year;
   }
 
-  // max number of days for given year and month
+  /// max number of days for given year and month
   int _maxDays(int year, int month) {
     var maxDaysMonthList = <int>[4, 6, 9, 11];
     if (month == 2) {
@@ -71,7 +78,7 @@ class RandomDate {
     }
   }
 
-// is year a leap
+  /// is year a leap
   bool _isLeapYear(int year) =>
       (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
 }
