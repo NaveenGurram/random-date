@@ -32,7 +32,11 @@ class RandomDate {
         throw ArgumentError(
             'Start and End year cannot be same when leap years are excluded');
       } else {
-        _endYear += 1;
+        var endYear = _endYear;
+        if (endYear != null) {
+          endYear++;
+        }
+        _endYear = endYear;
       }
     }
     var _random = Random();
